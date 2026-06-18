@@ -1,0 +1,709 @@
+{
+  "apple_pie": {
+    "kcal": 296,
+    "serving": "1 slice (125 g)",
+    "protein": 6,
+    "fat": 12,
+    "carbs": 40
+  },
+  "baby_back_ribs": {
+    "kcal": 415,
+    "serving": "4 ribs (140 g)",
+    "protein": 39,
+    "fat": 25,
+    "carbs": 8
+  },
+  "baklava": {
+    "kcal": 334,
+    "serving": "1 piece (78 g)",
+    "protein": 7,
+    "fat": 14,
+    "carbs": 45
+  },
+  "beef_carpaccio": {
+    "kcal": 190,
+    "serving": "1 plate (120 g)",
+    "protein": 18,
+    "fat": 11,
+    "carbs": 4
+  },
+  "beef_tartare": {
+    "kcal": 220,
+    "serving": "1 serving (130 g)",
+    "protein": 21,
+    "fat": 13,
+    "carbs": 4
+  },
+  "beet_salad": {
+    "kcal": 150,
+    "serving": "1 bowl (150 g)",
+    "protein": 7,
+    "fat": 8,
+    "carbs": 14
+  },
+  "beignets": {
+    "kcal": 290,
+    "serving": "3 pieces (90 g)",
+    "protein": 6,
+    "fat": 12,
+    "carbs": 39
+  },
+  "bibimbap": {
+    "kcal": 490,
+    "serving": "1 bowl (400 g)",
+    "protein": 22,
+    "fat": 15,
+    "carbs": 67
+  },
+  "bread_pudding": {
+    "kcal": 305,
+    "serving": "1 piece (120 g)",
+    "protein": 6,
+    "fat": 13,
+    "carbs": 41
+  },
+  "breakfast_burrito": {
+    "kcal": 510,
+    "serving": "1 burrito (220 g)",
+    "protein": 33,
+    "fat": 23,
+    "carbs": 43
+  },
+  "bruschetta": {
+    "kcal": 195,
+    "serving": "2 slices (90 g)",
+    "protein": 9,
+    "fat": 10,
+    "carbs": 18
+  },
+  "caesar_salad": {
+    "kcal": 330,
+    "serving": "1 bowl (200 g)",
+    "protein": 15,
+    "fat": 17,
+    "carbs": 30
+  },
+  "cannoli": {
+    "kcal": 260,
+    "serving": "1 piece (75 g)",
+    "protein": 5,
+    "fat": 11,
+    "carbs": 35
+  },
+  "caprese_salad": {
+    "kcal": 280,
+    "serving": "1 plate (180 g)",
+    "protein": 13,
+    "fat": 14,
+    "carbs": 25
+  },
+  "carrot_cake": {
+    "kcal": 415,
+    "serving": "1 slice (110 g)",
+    "protein": 8,
+    "fat": 18,
+    "carbs": 56
+  },
+  "ceviche": {
+    "kcal": 180,
+    "serving": "1 serving (150 g)",
+    "protein": 20,
+    "fat": 6,
+    "carbs": 12
+  },
+  "cheesecake": {
+    "kcal": 401,
+    "serving": "1 slice (125 g)",
+    "protein": 8,
+    "fat": 17,
+    "carbs": 54
+  },
+  "cheese_plate": {
+    "kcal": 450,
+    "serving": "1 plate (120 g)",
+    "protein": 20,
+    "fat": 18,
+    "carbs": 51
+  },
+  "chicken_curry": {
+    "kcal": 360,
+    "serving": "1 bowl (250 g)",
+    "protein": 23,
+    "fat": 16,
+    "carbs": 31
+  },
+  "chicken_quesadilla": {
+    "kcal": 510,
+    "serving": "1 quesadilla (200 g)",
+    "protein": 33,
+    "fat": 23,
+    "carbs": 43
+  },
+  "chicken_wings": {
+    "kcal": 430,
+    "serving": "4 wings (130 g)",
+    "protein": 28,
+    "fat": 19,
+    "carbs": 37
+  },
+  "chocolate_cake": {
+    "kcal": 371,
+    "serving": "1 slice (95 g)",
+    "protein": 7,
+    "fat": 16,
+    "carbs": 50
+  },
+  "chocolate_mousse": {
+    "kcal": 225,
+    "serving": "1 cup (100 g)",
+    "protein": 4,
+    "fat": 10,
+    "carbs": 30
+  },
+  "churros": {
+    "kcal": 290,
+    "serving": "3 pieces (90 g)",
+    "protein": 6,
+    "fat": 12,
+    "carbs": 39
+  },
+  "clam_chowder": {
+    "kcal": 200,
+    "serving": "1 bowl (240 g)",
+    "protein": 11,
+    "fat": 7,
+    "carbs": 22
+  },
+  "club_sandwich": {
+    "kcal": 590,
+    "serving": "1 sandwich (250 g)",
+    "protein": 38,
+    "fat": 26,
+    "carbs": 50
+  },
+  "crab_cakes": {
+    "kcal": 290,
+    "serving": "2 cakes (120 g)",
+    "protein": 6,
+    "fat": 12,
+    "carbs": 39
+  },
+  "creme_brulee": {
+    "kcal": 340,
+    "serving": "1 ramekin (130 g)",
+    "protein": 7,
+    "fat": 14,
+    "carbs": 46
+  },
+  "croque_madame": {
+    "kcal": 500,
+    "serving": "1 serving (200 g)",
+    "protein": 32,
+    "fat": 22,
+    "carbs": 42
+  },
+  "cup_cakes": {
+    "kcal": 305,
+    "serving": "1 cupcake (80 g)",
+    "protein": 6,
+    "fat": 13,
+    "carbs": 41
+  },
+  "deviled_eggs": {
+    "kcal": 130,
+    "serving": "2 halves (60 g)",
+    "protein": 6,
+    "fat": 7,
+    "carbs": 12
+  },
+  "donuts": {
+    "kcal": 280,
+    "serving": "1 donut (70 g)",
+    "protein": 6,
+    "fat": 12,
+    "carbs": 38
+  },
+  "dumplings": {
+    "kcal": 280,
+    "serving": "5 pieces (150 g)",
+    "protein": 13,
+    "fat": 8,
+    "carbs": 38
+  },
+  "edamame": {
+    "kcal": 120,
+    "serving": "1 cup (155 g)",
+    "protein": 5,
+    "fat": 6,
+    "carbs": 11
+  },
+  "eggs_benedict": {
+    "kcal": 470,
+    "serving": "1 serving (200 g)",
+    "protein": 33,
+    "fat": 29,
+    "carbs": 20
+  },
+  "escargots": {
+    "kcal": 200,
+    "serving": "6 pieces (90 g)",
+    "protein": 19,
+    "fat": 12,
+    "carbs": 4
+  },
+  "falafel": {
+    "kcal": 330,
+    "serving": "4 balls (120 g)",
+    "protein": 8,
+    "fat": 18,
+    "carbs": 35
+  },
+  "filet_mignon": {
+    "kcal": 350,
+    "serving": "1 steak (170 g)",
+    "protein": 33,
+    "fat": 21,
+    "carbs": 7
+  },
+  "fish_and_chips": {
+    "kcal": 600,
+    "serving": "1 serving (300 g)",
+    "protein": 66,
+    "fat": 20,
+    "carbs": 39
+  },
+  "foie_gras": {
+    "kcal": 460,
+    "serving": "1 serving (100 g)",
+    "protein": 44,
+    "fat": 28,
+    "carbs": 9
+  },
+  "french_fries": {
+    "kcal": 365,
+    "serving": "1 medium (115 g)",
+    "protein": 9,
+    "fat": 19,
+    "carbs": 38
+  },
+  "french_onion_soup": {
+    "kcal": 250,
+    "serving": "1 bowl (250 g)",
+    "protein": 14,
+    "fat": 9,
+    "carbs": 28
+  },
+  "french_toast": {
+    "kcal": 355,
+    "serving": "2 slices (135 g)",
+    "protein": 7,
+    "fat": 15,
+    "carbs": 48
+  },
+  "fried_calamari": {
+    "kcal": 300,
+    "serving": "1 serving (110 g)",
+    "protein": 8,
+    "fat": 16,
+    "carbs": 32
+  },
+  "fried_rice": {
+    "kcal": 340,
+    "serving": "1 bowl (200 g)",
+    "protein": 15,
+    "fat": 10,
+    "carbs": 47
+  },
+  "frozen_yogurt": {
+    "kcal": 220,
+    "serving": "1 cup (150 g)",
+    "protein": 4,
+    "fat": 9,
+    "carbs": 30
+  },
+  "garlic_bread": {
+    "kcal": 200,
+    "serving": "2 slices (60 g)",
+    "protein": 9,
+    "fat": 8,
+    "carbs": 22
+  },
+  "gnocchi": {
+    "kcal": 250,
+    "serving": "1 bowl (180 g)",
+    "protein": 11,
+    "fat": 8,
+    "carbs": 34
+  },
+  "greek_salad": {
+    "kcal": 210,
+    "serving": "1 bowl (200 g)",
+    "protein": 9,
+    "fat": 11,
+    "carbs": 19
+  },
+  "grilled_cheese_sandwich": {
+    "kcal": 400,
+    "serving": "1 sandwich (120 g)",
+    "protein": 26,
+    "fat": 18,
+    "carbs": 34
+  },
+  "grilled_salmon": {
+    "kcal": 310,
+    "serving": "1 fillet (150 g)",
+    "protein": 34,
+    "fat": 10,
+    "carbs": 20
+  },
+  "guacamole": {
+    "kcal": 230,
+    "serving": "1 cup (120 g)",
+    "protein": 10,
+    "fat": 12,
+    "carbs": 21
+  },
+  "gyoza": {
+    "kcal": 260,
+    "serving": "5 pieces (140 g)",
+    "protein": 12,
+    "fat": 8,
+    "carbs": 36
+  },
+  "hamburger": {
+    "kcal": 540,
+    "serving": "1 burger (220 g)",
+    "protein": 35,
+    "fat": 24,
+    "carbs": 46
+  },
+  "hot_and_sour_soup": {
+    "kcal": 160,
+    "serving": "1 bowl (240 g)",
+    "protein": 9,
+    "fat": 6,
+    "carbs": 18
+  },
+  "hot_dog": {
+    "kcal": 290,
+    "serving": "1 hot dog (100 g)",
+    "protein": 19,
+    "fat": 13,
+    "carbs": 25
+  },
+  "huevos_rancheros": {
+    "kcal": 400,
+    "serving": "1 serving (250 g)",
+    "protein": 28,
+    "fat": 24,
+    "carbs": 17
+  },
+  "hummus": {
+    "kcal": 180,
+    "serving": "1/2 cup (120 g)",
+    "protein": 8,
+    "fat": 9,
+    "carbs": 16
+  },
+  "ice_cream": {
+    "kcal": 270,
+    "serving": "1 cup (130 g)",
+    "protein": 5,
+    "fat": 11,
+    "carbs": 36
+  },
+  "lasagna": {
+    "kcal": 450,
+    "serving": "1 piece (250 g)",
+    "protein": 20,
+    "fat": 14,
+    "carbs": 62
+  },
+  "lobster_bisque": {
+    "kcal": 230,
+    "serving": "1 bowl (240 g)",
+    "protein": 13,
+    "fat": 8,
+    "carbs": 26
+  },
+  "lobster_roll_sandwich": {
+    "kcal": 440,
+    "serving": "1 roll (180 g)",
+    "protein": 29,
+    "fat": 20,
+    "carbs": 37
+  },
+  "macaroni_and_cheese": {
+    "kcal": 410,
+    "serving": "1 bowl (200 g)",
+    "protein": 8,
+    "fat": 17,
+    "carbs": 55
+  },
+  "macarons": {
+    "kcal": 180,
+    "serving": "3 pieces (60 g)",
+    "protein": 4,
+    "fat": 8,
+    "carbs": 24
+  },
+  "miso_soup": {
+    "kcal": 80,
+    "serving": "1 bowl (240 g)",
+    "protein": 4,
+    "fat": 3,
+    "carbs": 9
+  },
+  "mussels": {
+    "kcal": 200,
+    "serving": "1 serving (150 g)",
+    "protein": 22,
+    "fat": 7,
+    "carbs": 13
+  },
+  "nachos": {
+    "kcal": 560,
+    "serving": "1 plate (200 g)",
+    "protein": 14,
+    "fat": 30,
+    "carbs": 59
+  },
+  "omelette": {
+    "kcal": 300,
+    "serving": "1 omelette (150 g)",
+    "protein": 21,
+    "fat": 18,
+    "carbs": 13
+  },
+  "onion_rings": {
+    "kcal": 410,
+    "serving": "1 serving (110 g)",
+    "protein": 10,
+    "fat": 22,
+    "carbs": 43
+  },
+  "oysters": {
+    "kcal": 120,
+    "serving": "6 pieces (90 g)",
+    "protein": 13,
+    "fat": 4,
+    "carbs": 8
+  },
+  "pad_thai": {
+    "kcal": 480,
+    "serving": "1 plate (300 g)",
+    "protein": 22,
+    "fat": 14,
+    "carbs": 66
+  },
+  "paella": {
+    "kcal": 430,
+    "serving": "1 plate (300 g)",
+    "protein": 47,
+    "fat": 14,
+    "carbs": 28
+  },
+  "pancakes": {
+    "kcal": 350,
+    "serving": "3 pancakes (150 g)",
+    "protein": 7,
+    "fat": 15,
+    "carbs": 47
+  },
+  "panna_cotta": {
+    "kcal": 290,
+    "serving": "1 serving (120 g)",
+    "protein": 6,
+    "fat": 12,
+    "carbs": 39
+  },
+  "peking_duck": {
+    "kcal": 400,
+    "serving": "1 serving (150 g)",
+    "protein": 38,
+    "fat": 24,
+    "carbs": 8
+  },
+  "pho": {
+    "kcal": 420,
+    "serving": "1 bowl (500 g)",
+    "protein": 19,
+    "fat": 13,
+    "carbs": 58
+  },
+  "pizza": {
+    "kcal": 285,
+    "serving": "1 slice (110 g)",
+    "protein": 13,
+    "fat": 12,
+    "carbs": 32
+  },
+  "pork_chop": {
+    "kcal": 340,
+    "serving": "1 chop (160 g)",
+    "protein": 32,
+    "fat": 20,
+    "carbs": 7
+  },
+  "poutine": {
+    "kcal": 740,
+    "serving": "1 serving (350 g)",
+    "protein": 18,
+    "fat": 39,
+    "carbs": 78
+  },
+  "prime_rib": {
+    "kcal": 400,
+    "serving": "1 slice (170 g)",
+    "protein": 38,
+    "fat": 24,
+    "carbs": 8
+  },
+  "pulled_pork_sandwich": {
+    "kcal": 530,
+    "serving": "1 sandwich (240 g)",
+    "protein": 50,
+    "fat": 32,
+    "carbs": 11
+  },
+  "ramen": {
+    "kcal": 450,
+    "serving": "1 bowl (450 g)",
+    "protein": 20,
+    "fat": 14,
+    "carbs": 62
+  },
+  "ravioli": {
+    "kcal": 350,
+    "serving": "1 bowl (200 g)",
+    "protein": 16,
+    "fat": 10,
+    "carbs": 48
+  },
+  "red_velvet_cake": {
+    "kcal": 390,
+    "serving": "1 slice (100 g)",
+    "protein": 8,
+    "fat": 16,
+    "carbs": 53
+  },
+  "risotto": {
+    "kcal": 360,
+    "serving": "1 bowl (220 g)",
+    "protein": 16,
+    "fat": 11,
+    "carbs": 50
+  },
+  "samosa": {
+    "kcal": 260,
+    "serving": "2 pieces (100 g)",
+    "protein": 6,
+    "fat": 14,
+    "carbs": 27
+  },
+  "sashimi": {
+    "kcal": 180,
+    "serving": "1 serving (120 g)",
+    "protein": 20,
+    "fat": 6,
+    "carbs": 12
+  },
+  "scallops": {
+    "kcal": 200,
+    "serving": "1 serving (140 g)",
+    "protein": 22,
+    "fat": 7,
+    "carbs": 13
+  },
+  "seaweed_salad": {
+    "kcal": 100,
+    "serving": "1 serving (100 g)",
+    "protein": 4,
+    "fat": 5,
+    "carbs": 9
+  },
+  "shrimp_and_grits": {
+    "kcal": 430,
+    "serving": "1 serving (250 g)",
+    "protein": 47,
+    "fat": 14,
+    "carbs": 28
+  },
+  "spaghetti_bolognese": {
+    "kcal": 460,
+    "serving": "1 plate (300 g)",
+    "protein": 21,
+    "fat": 14,
+    "carbs": 63
+  },
+  "spaghetti_carbonara": {
+    "kcal": 540,
+    "serving": "1 plate (300 g)",
+    "protein": 24,
+    "fat": 16,
+    "carbs": 74
+  },
+  "spring_rolls": {
+    "kcal": 230,
+    "serving": "3 rolls (120 g)",
+    "protein": 6,
+    "fat": 12,
+    "carbs": 24
+  },
+  "steak": {
+    "kcal": 420,
+    "serving": "1 steak (200 g)",
+    "protein": 40,
+    "fat": 25,
+    "carbs": 8
+  },
+  "strawberry_shortcake": {
+    "kcal": 330,
+    "serving": "1 slice (120 g)",
+    "protein": 7,
+    "fat": 14,
+    "carbs": 45
+  },
+  "sushi": {
+    "kcal": 350,
+    "serving": "6 pieces (200 g)",
+    "protein": 38,
+    "fat": 12,
+    "carbs": 23
+  },
+  "tacos": {
+    "kcal": 340,
+    "serving": "2 tacos (170 g)",
+    "protein": 15,
+    "fat": 14,
+    "carbs": 38
+  },
+  "takoyaki": {
+    "kcal": 320,
+    "serving": "6 pieces (150 g)",
+    "protein": 35,
+    "fat": 11,
+    "carbs": 21
+  },
+  "tiramisu": {
+    "kcal": 410,
+    "serving": "1 slice (130 g)",
+    "protein": 8,
+    "fat": 17,
+    "carbs": 55
+  },
+  "tuna_tartare": {
+    "kcal": 200,
+    "serving": "1 serving (130 g)",
+    "protein": 19,
+    "fat": 12,
+    "carbs": 4
+  },
+  "waffles": {
+    "kcal": 310,
+    "serving": "2 waffles (140 g)",
+    "protein": 6,
+    "fat": 13,
+    "carbs": 42
+  }
+}

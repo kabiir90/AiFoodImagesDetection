@@ -1,0 +1,25 @@
+# --- Large data & archives (NEVER commit to GitHub) ---
+food-101/
+archive.zip
+*.zip
+__MACOSX/
+
+# --- Python virtual environment & caches ---
+training/.venv/
+**/__pycache__/
+*.pyc
+
+# --- Runtime / logs ---
+*.log
+node-red/food_scans.log
+food_scans.log
+
+# --- Local editor / tooling config ---
+.claude/
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Note: we DO keep the trained model + TF.js assets so the app & Vercel deploy work:
+#   node-red/model/*  and  web/food-model/*  (each well under GitHub's 100 MB limit)
+#   training/artifacts/*.keras (~23 MB), metrics.json, labels.json, history.json

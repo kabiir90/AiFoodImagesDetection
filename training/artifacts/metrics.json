@@ -1,0 +1,11 @@
+{
+  "test_accuracy_top1": 0.5068,
+  "test_accuracy_top5": 0.7893,
+  "test_loss": 2.197,
+  "num_classes": 101,
+  "train_images": 75750,
+  "test_images": 25250,
+  "total_params": 2387365,
+  "backbone": "MobileNetV2 (ImageNet) + transfer learning",
+  "note": "best checkpoint; fine-tuning partially completed (CPU-limited run)."
+}

@@ -1,0 +1,386 @@
+[
+  {
+    "id": "food_flow",
+    "type": "tab",
+    "label": "Food Calorie Scanner",
+    "disabled": false,
+    "info": ""
+  },
+  {
+    "id": "g_intake",
+    "type": "group",
+    "z": "food_flow",
+    "name": "1 \u00b7 Scan intake",
+    "style": {
+      "stroke": "#3a9b35",
+      "stroke-opacity": "1",
+      "fill": "#dff0dd",
+      "fill-opacity": "0.4",
+      "label": true,
+      "label-position": "nw",
+      "color": "#1a1a1a"
+    },
+    "nodes": [
+      "food_template",
+      "fn_norm"
+    ],
+    "x": 78,
+    "y": 142,
+    "w": 524,
+    "h": 116
+  },
+  {
+    "id": "g_route",
+    "type": "group",
+    "z": "food_flow",
+    "name": "2 \u00b7 Confidence routing",
+    "style": {
+      "stroke": "#c79a1e",
+      "stroke-opacity": "1",
+      "fill": "#fbf2d0",
+      "fill-opacity": "0.4",
+      "label": true,
+      "label-position": "nw",
+      "color": "#1a1a1a"
+    },
+    "nodes": [
+      "sw_conf",
+      "ch_low"
+    ],
+    "x": 578,
+    "y": 142,
+    "w": 274,
+    "h": 236
+  },
+  {
+    "id": "g_proc",
+    "type": "group",
+    "z": "food_flow",
+    "name": "3 \u00b7 Filter, analytics, storage & errors",
+    "style": {
+      "stroke": "#2d7fb8",
+      "stroke-opacity": "1",
+      "fill": "#dcecf7",
+      "fill-opacity": "0.4",
+      "label": true,
+      "label-position": "nw",
+      "color": "#1a1a1a"
+    },
+    "nodes": [
+      "flt_dup",
+      "fn_totals",
+      "json_str",
+      "file_log",
+      "dbg_ok",
+      "dbg_low",
+      "catch_err",
+      "fn_err",
+      "dbg_err"
+    ],
+    "x": 828,
+    "y": 82,
+    "w": 894,
+    "h": 396
+  },
+  {
+    "id": "food_tab",
+    "type": "ui_tab",
+    "name": "Food Scanner",
+    "icon": "fa-cutlery",
+    "order": 1
+  },
+  {
+    "id": "food_group",
+    "type": "ui_group",
+    "name": "",
+    "tab": "food_tab",
+    "order": 1,
+    "disp": false,
+    "width": 24,
+    "collapse": false
+  },
+  {
+    "id": "food_base",
+    "type": "ui_base",
+    "theme": {
+      "name": "theme-light"
+    },
+    "site": {
+      "name": "Food Calorie Scanner",
+      "hideToolbar": "true",
+      "allowSwipe": "false",
+      "lockMenu": "false",
+      "dateFormat": "DD/MM/YYYY",
+      "sizes": {
+        "sx": 48,
+        "sy": 48,
+        "gx": 6,
+        "gy": 6,
+        "cx": 6,
+        "cy": 6,
+        "px": 0,
+        "py": 0
+      }
+    }
+  },
+  {
+    "id": "food_template",
+    "type": "ui_template",
+    "z": "food_flow",
+    "g": "g_intake",
+    "group": "food_group",
+    "name": "Food Calorie Scanner",
+    "order": 1,
+    "width": 24,
+    "height": 20,
+    "format": "<!--\n  Food Scanner \u2014 premium HealthTech SaaS dashboard (single Node-RED ui_template).\n  Type: Outfit (display) + Manrope (body). Icons: Phosphor Duotone (icon font).\n  Design system (CSS vars) + KPI cards, premium scan card, detected-food card,\n  timeline meal log w/ delete, proportional charts + empty states, responsive.\n  In-browser TensorFlow.js inference. History in localStorage.\n  All assets served locally & absolutely under /food-model/.\n-->\n<link rel=\"preconnect\" href=\"https://fonts.googleapis.com\">\n<link rel=\"preconnect\" href=\"https://fonts.gstatic.com\" crossorigin>\n<link href=\"https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800&family=Manrope:wght@400;500;600;700;800&display=swap\" rel=\"stylesheet\">\n<link rel=\"stylesheet\" href=\"/food-model/ph-duotone.css\">\n\n<style>\n/* ============================================================= DESIGN SYSTEM */\n.nr-dashboard-theme .nr-dashboard-template,\n.nr-dashboard-theme md-card.nr-dashboard-template{\n  background:transparent!important;box-shadow:none!important;padding:0!important;margin:0!important;border:0!important;}\n.nr-dashboard-theme md-content.md-default-theme{ background:transparent!important; overflow-x:hidden!important; }\nhtml,body{ overflow-x:hidden!important; }\n/* Make this single widget span the full dashboard width and fit its content\n   height (Node-RED otherwise offsets it left & gives it a huge fixed height). */\nui-card-panel[node-id=\"food_group\"]{ left:0!important; top:0!important; width:100%!important; height:auto!important; }\nui-card-panel[node-id=\"food_group\"] .nr-dashboard-cardcontainer{ width:100%!important; height:auto!important; }\nmd-card[node-id=\"food_template\"]{ left:0!important; top:0!important; width:100%!important; height:auto!important; }\n\n#fs{\n  --bg:#f6f7fb; --surface:#ffffff; --surface-2:#fbfcfe;\n  --ink-900:#10151f; --ink-700:#39414f; --ink-500:#6b7382; --ink-400:#9aa1af; --line:#eceff4;\n  --brand:#ff6a3d; --brand-600:#ec5526; --brand-50:#fff0ea;\n  --protein:#7c5cff; --protein-50:#f0ecff;\n  --fat:#f59e0b; --fat-50:#fef3e0;\n  --carbs:#16b87a; --carbs-50:#e4f7f0;\n  --cal:#ff4d5e; --cal-50:#ffeced;\n  --r-sm:10px; --r-md:14px; --r-lg:20px; --r-xl:26px;\n  --sh-sm:0 1px 2px rgba(16,21,31,.05);\n  --sh-md:0 2px 6px rgba(16,21,31,.05),0 12px 28px rgba(16,21,31,.06);\n  --sh-lg:0 8px 40px rgba(16,21,31,.10);\n  --font:'Manrope',-apple-system,Segoe UI,Roboto,sans-serif;\n  --display:'Outfit',var(--font);\n  font-family:var(--font); color:var(--ink-900); box-sizing:border-box; width:100%; min-height:100vh; overflow-x:hidden;\n  background:radial-gradient(1200px 480px at 88% -8%,#fff1ea 0,rgba(255,241,234,0) 60%),\n             radial-gradient(900px 420px at -6% 6%,#eef0ff 0,rgba(238,240,255,0) 55%), var(--bg);\n}\n#fs *,#fs *::before,#fs *::after{ box-sizing:border-box; }\n#fs .wrap{ max-width:none; margin:0 auto; padding:16px clamp(16px,2.6vw,40px) 28px; }\n#fs h2,#fs h3{ font-family:var(--display); }\n#fs .ph-duotone{ display:inline-block; vertical-align:middle; }\n\n/* card primitive */\n#fs .card{ background:var(--surface); border:1px solid var(--line); border-radius:var(--r-lg); box-shadow:var(--sh-md); }\n#fs .card__h{ display:flex; align-items:center; gap:10px; padding:18px 20px 0; }\n#fs .card__h .ttl{ font-family:var(--display); font-size:15px; font-weight:700; letter-spacing:-.01em; }\n#fs .card__h .ic{ width:30px; height:30px; border-radius:9px; display:grid; place-items:center; background:var(--brand-50); color:var(--brand); flex:none; }\n#fs .card__h .ic i{ font-size:18px; }\n#fs .card__h .act{ margin-left:auto; display:flex; align-items:center; gap:8px; }\n#fs .card__b{ padding:16px 20px 20px; }\n\n/* ===================================================================== HEADER */\n#fs .hdr{ display:flex; align-items:center; gap:13px; margin-bottom:14px; }\n#fs .avatar{ width:44px; height:44px; border-radius:14px; flex:none; display:grid; place-items:center; color:#fff;\n  font-family:var(--display); font-weight:800; font-size:18px; background:linear-gradient(140deg,var(--brand),#ff9a6b);\n  box-shadow:0 8px 20px rgba(255,106,61,.4); }\n#fs .hdr .greet{ font-size:12.5px; color:var(--ink-500); font-weight:500; }\n#fs .hdr .h1{ font-family:var(--display); font-size:21px; font-weight:800; letter-spacing:-.02em; line-height:1.1; }\n#fs .hdr .right{ margin-left:auto; display:flex; align-items:center; gap:10px; }\n#fs .chiprow{ display:flex; align-items:center; gap:7px; font-size:12.5px; font-weight:600; color:var(--ink-700);\n  background:var(--surface); border:1px solid var(--line); padding:9px 13px; border-radius:12px; box-shadow:var(--sh-sm); }\n#fs .chiprow i{ font-size:16px; color:var(--brand); }\n#fs .iconbtn{ width:42px; height:42px; border-radius:12px; background:var(--surface); border:1px solid var(--line);\n  display:grid; place-items:center; color:var(--ink-700); box-shadow:var(--sh-sm); cursor:pointer; transition:.15s; position:relative; }\n#fs .iconbtn:hover{ box-shadow:var(--sh-md); transform:translateY(-1px); }\n#fs .iconbtn i{ font-size:21px; }\n#fs .iconbtn .dot{ position:absolute; top:9px; right:10px; width:7px; height:7px; border-radius:50%; background:var(--cal); border:2px solid #fff; z-index:1; }\n\n/* ============================================================= KPI / DAILY GOALS */\n#fs .sect-h{ display:flex; align-items:baseline; gap:10px; margin:0 4px 9px; }\n#fs .sect-h .t{ font-family:var(--display); font-size:13.5px; font-weight:700; }\n#fs .sect-h .s{ font-size:12px; color:var(--ink-500); }\n#fs .kpis{ display:grid; grid-template-columns:repeat(4,1fr); gap:12px; }\n#fs .kpi{ background:var(--surface); border:1px solid var(--line); border-radius:var(--r-md); padding:13px 14px; box-shadow:var(--sh-sm); transition:.18s; }\n#fs .kpi:hover{ box-shadow:var(--sh-md); transform:translateY(-2px); }\n#fs .kpi__top{ display:flex; align-items:center; justify-content:space-between; }\n#fs .kpi__ic{ width:34px; height:34px; border-radius:10px; display:grid; place-items:center; }\n#fs .kpi__ic i{ font-size:19px; }\n#fs .kpi__pct{ font-size:11.5px; font-weight:700; padding:3px 9px; border-radius:999px; }\n#fs .kpi__num{ font-family:var(--display); font-size:24px; font-weight:800; letter-spacing:-.03em; margin-top:9px; line-height:1; }\n#fs .kpi__goal{ font-family:var(--font); font-size:12.5px; font-weight:600; color:var(--ink-400); margin-left:4px; }\n#fs .kpi__lab{ font-size:12px; color:var(--ink-500); margin-top:2px; font-weight:500; }\n#fs .kpi__bar{ height:6px; border-radius:99px; background:var(--line); margin-top:10px; overflow:hidden; }\n#fs .kpi__bar i{ display:block; height:100%; border-radius:99px; width:0; transition:width .5s cubic-bezier(.3,1,.4,1); }\n#fs .kpi--cal .kpi__ic{ background:var(--cal-50); color:var(--cal); } #fs .kpi--cal .kpi__pct{ background:var(--cal-50); color:var(--cal); } #fs .kpi--cal .kpi__bar i{ background:var(--cal); }\n#fs .kpi--pro .kpi__ic{ background:var(--protein-50); color:var(--protein); } #fs .kpi--pro .kpi__pct{ background:var(--protein-50); color:var(--protein); } #fs .kpi--pro .kpi__bar i{ background:var(--protein); }\n#fs .kpi--fat .kpi__ic{ background:var(--fat-50); color:var(--fat); } #fs .kpi--fat .kpi__pct{ background:var(--fat-50); color:var(--fat); } #fs .kpi--fat .kpi__bar i{ background:var(--fat); }\n#fs .kpi--carb .kpi__ic{ background:var(--carbs-50); color:var(--carbs); } #fs .kpi--carb .kpi__pct{ background:var(--carbs-50); color:var(--carbs); } #fs .kpi--carb .kpi__bar i{ background:var(--carbs); }\n\n/* ===================================================================== LAYOUT */\n#fs .card__h{ padding:14px 16px 0; }\n#fs .card__b{ padding:13px 16px 16px; }\n#fs .main{ display:grid; grid-template-columns:1.08fr 1fr .92fr; gap:12px; margin-top:12px; align-items:stretch; }\n#fs .main > .card{ display:flex; flex-direction:column; height:100%; }\n#fs .main > .card > .card__b{ flex:1; display:flex; flex-direction:column; }\n#fs .card--result{ min-height:548px; }            /* fixed room so matches always show */\n#fs .rail{ display:grid; gap:12px; grid-auto-rows:1fr; }   /* two rail cards equal & fill height */\n#fs .rail > .card{ display:flex; flex-direction:column; }\n#fs .rail .card__b{ flex:1; display:flex; flex-direction:column; }\n#fs .rail .chart-wrap{ flex:1; height:auto; min-height:120px; }\n#fs .rail .chart-empty{ flex:1; height:auto; }\n#fs .mt{ margin-top:12px; }\n@media(max-width:1120px){ #fs .main{ grid-template-columns:1fr 1fr; } #fs .rail{ grid-column:1/-1; grid-template-columns:1fr 1fr; } }\n@media(max-width:1000px){ #fs .kpis{ grid-template-columns:repeat(2,1fr); } }\n@media(max-width:760px){ #fs .main{ grid-template-columns:1fr; } #fs .rail{ grid-column:auto; grid-template-columns:1fr; } }\n@media(max-width:520px){ #fs .kpis{ grid-template-columns:1fr; } }\n\n/* ===================================================================== SCANNER */\n#fs .stage{ position:relative; width:100%; min-height:200px; border-radius:var(--r-md); overflow:hidden; background:#0d1320; display:grid; place-items:center; }\n/* show the full photo: frame adapts to the image's aspect ratio (no cropping) */\n#fs video,#fs canvas{ width:100%; height:auto; max-height:380px; object-fit:contain; display:none; }\n#fs .stage-ph{ color:#69728a; text-align:center; font-size:13px; padding:24px; }\n#fs .stage-ph i{ font-size:48px; opacity:.6; display:block; margin:0 auto 12px; }\n#fs .ovl{ position:absolute; inset:0; background:rgba(8,12,22,.66); backdrop-filter:blur(2px); display:none; place-items:center; z-index:4; }\n#fs .ovl.on{ display:grid; }\n#fs .ovl .sp{ width:48px; height:48px; border:4px solid rgba(255,255,255,.22); border-top-color:#fff; border-radius:50%; animation:spin .7s linear infinite; margin:0 auto 13px; }\n#fs .ovl .t{ color:#fff; font-size:13.5px; font-weight:600; text-align:center; }\n@keyframes spin{ to{ transform:rotate(360deg); } }\n#fs .btnrow{ display:flex; gap:10px; margin-top:14px; }\n#fs .btn{ border:0; border-radius:13px; padding:13px 14px; font:600 14px var(--font); cursor:pointer; display:inline-flex; align-items:center; justify-content:center; gap:8px; transition:.15s; }\n#fs .btn i{ font-size:19px; }\n#fs .btn--primary{ flex:1.3; background:var(--brand); color:#fff; box-shadow:0 8px 18px rgba(255,106,61,.32); }\n#fs .btn--primary:hover{ background:var(--brand-600); transform:translateY(-1px); }\n#fs .btn--ghost{ flex:1; background:var(--surface-2); color:var(--ink-700); border:1px solid var(--line); }\n#fs .btn--ghost:hover{ background:#f1f3f8; }\n#fs .btn:disabled{ opacity:.5; cursor:not-allowed; box-shadow:none; transform:none; }\n#fs .alert{ margin-top:13px; display:flex; align-items:center; gap:9px; font-size:12.5px; font-weight:500; color:var(--ink-500);\n  background:var(--surface-2); border:1px solid var(--line); border-radius:11px; padding:10px 12px; min-height:40px; }\n#fs .alert .mini{ width:15px; height:15px; border:2px solid var(--brand-50); border-top-color:var(--brand); border-radius:50%; animation:spin .7s linear infinite; flex:none; }\n#fs .alert.ok{ color:var(--carbs); background:var(--carbs-50); border-color:transparent; }\n#fs .alert.err{ color:var(--cal); background:var(--cal-50); border-color:transparent; }\n\n/* ====================================================== SKELETON (loading) */\n#fs .sk{ background:linear-gradient(90deg,#edf0f4 25%,#f7f9fb 37%,#edf0f4 63%); background-size:400% 100%;\n  animation:shimmer 1.5s ease infinite; border-radius:10px; }\n@keyframes shimmer{ 0%{ background-position:100% 0; } 100%{ background-position:0 0; } }\n#fs .skel .res__hero{ align-items:flex-start; }\n#fs .sk-cal{ width:118px; height:96px; border-radius:14px; flex:none; }\n#fs .sk-info{ flex:1; }\n#fs .sk-line{ height:11px; margin-bottom:11px; }\n#fs .sk-title{ height:24px; width:66%; margin-bottom:11px; }\n#fs .sk-badge{ height:22px; width:44%; border-radius:999px; }\n#fs .sk-macro{ height:80px; border-radius:14px; }\n#fs .sk-row{ height:34px; margin-bottom:9px; }\n#fs .skel-cap{ text-align:center; color:var(--ink-400); font-size:12.5px; margin-top:16px; }\n\n/* ============================================================== DETECTED FOOD */\n#fs .empty{ text-align:center; color:var(--ink-500); padding:34px 16px; font-size:13px; }\n#fs .empty i{ font-size:46px; opacity:.45; color:var(--ink-400); display:block; margin:0 auto 12px; }\n#fs .res__hero{ display:flex; gap:16px; align-items:center; }\n#fs .res__cal{ flex:none; width:118px; padding:16px 10px; border-radius:var(--r-md); text-align:center;\n  background:linear-gradient(160deg,var(--cal-50),#fff6f6); border:1px solid #ffe0e3; }\n#fs .res__cal .v{ font-family:var(--display); font-size:30px; font-weight:800; color:var(--cal); letter-spacing:-.03em; line-height:1; }\n#fs .res__cal .u{ font-size:11px; color:var(--ink-500); font-weight:600; margin-top:3px; }\n#fs .res__cal .k{ font-size:11px; color:var(--ink-400); margin-top:8px; }\n#fs .res__info{ min-width:0; }\n#fs .res__match{ font-size:11px; font-weight:700; color:var(--ink-400); text-transform:uppercase; letter-spacing:.06em; }\n#fs .res__name{ font-family:var(--display); font-size:24px; font-weight:800; text-transform:capitalize; letter-spacing:-.02em; line-height:1.1; margin:2px 0 4px; }\n#fs .res__serv{ font-size:12.5px; color:var(--ink-500); }\n#fs .badge{ display:inline-flex; align-items:center; gap:6px; margin-top:9px; font-size:11.5px; font-weight:700; padding:5px 11px; border-radius:999px; }\n#fs .badge i{ font-size:15px; }\n#fs .badge--low{ background:var(--cal-50); color:var(--cal); } #fs .badge--med{ background:var(--fat-50); color:var(--fat); } #fs .badge--high{ background:var(--carbs-50); color:var(--carbs); }\n#fs .macros{ display:grid; grid-template-columns:repeat(3,1fr); gap:11px; margin-top:18px; }\n#fs .macro{ border:1px solid var(--line); border-radius:var(--r-md); padding:13px 10px; text-align:center; background:var(--surface-2); }\n#fs .macro__ic{ width:34px; height:34px; border-radius:10px; display:grid; place-items:center; margin:0 auto 9px; }\n#fs .macro__ic i{ font-size:18px; }\n#fs .macro__v{ font-family:var(--display); font-size:18px; font-weight:800; } #fs .macro__l{ font-size:11px; color:var(--ink-500); margin-top:1px; }\n#fs .macro--pro .macro__ic{ background:var(--protein-50); color:var(--protein); }\n#fs .macro--fat .macro__ic{ background:var(--fat-50); color:var(--fat); }\n#fs .macro--carb .macro__ic{ background:var(--carbs-50); color:var(--carbs); }\n#fs .alts{ margin-top:18px; }\n#fs .alts h4{ font-family:var(--display); font-size:12px; font-weight:700; color:var(--ink-500); margin:0 0 8px; text-transform:uppercase; letter-spacing:.05em; }\n#fs .alt{ display:flex; align-items:center; gap:12px; padding:9px 0; border-top:1px solid var(--line); }\n#fs .alt__rank{ width:22px; height:22px; border-radius:7px; background:var(--surface-2); border:1px solid var(--line); display:grid; place-items:center; font-size:11px; font-weight:700; color:var(--ink-500); flex:none; }\n#fs .alt__nm{ font-size:13px; font-weight:600; text-transform:capitalize; }\n#fs .alt__r{ margin-left:auto; text-align:right; }\n#fs .alt__pct{ font-size:13px; font-weight:700; } #fs .alt__kc{ font-size:11px; color:var(--ink-500); }\n\n/* ===================================================================== CHARTS */\n#fs .chart-wrap{ position:relative; height:128px; }\n#fs .chart-empty{ display:none; height:128px; align-items:center; justify-content:center; flex-direction:column; color:var(--ink-400); text-align:center; font-size:12.5px; }\n#fs .chart-empty i{ font-size:40px; opacity:.45; margin-bottom:8px; }\n#fs .chart-empty.on{ display:flex; } #fs .chart-wrap.off{ display:none; }\n\n/* =================================================================== MEAL LOG */\n#fs #log{ max-height:232px; overflow-y:auto; }\n#fs #log::-webkit-scrollbar{ width:7px; } #fs #log::-webkit-scrollbar-thumb{ background:#dfe3ea; border-radius:99px; }\n#fs .meal{ display:flex; align-items:center; gap:14px; padding:11px 0; border-bottom:1px solid var(--line); transition:.12s; }\n#fs .meal:last-child{ border-bottom:0; }\n#fs .meal:hover{ background:var(--surface-2); margin:0 -10px; padding:13px 10px; border-radius:12px; border-bottom-color:transparent; }\n#fs .meal__th{ width:44px; height:44px; border-radius:13px; background:var(--brand-50); color:var(--brand); display:grid; place-items:center; flex:none; }\n#fs .meal__th i{ font-size:23px; }\n#fs .meal__nm{ font-weight:700; font-size:14px; text-transform:capitalize; } #fs .meal__tm{ font-size:11.5px; color:var(--ink-500); margin-top:1px; }\n#fs .meal__chips{ margin-left:auto; display:flex; gap:13px; }\n#fs .mchip{ font-size:11px; color:var(--ink-500); display:flex; align-items:center; gap:5px; white-space:nowrap; }\n#fs .mchip i{ width:8px; height:8px; border-radius:50%; display:inline-block; }\n#fs .meal__kc{ font-family:var(--display); font-weight:800; font-size:14px; min-width:72px; text-align:right; }\n#fs .meal__del{ width:30px; height:30px; border-radius:9px; border:1px solid var(--line); background:var(--surface); color:var(--ink-400); cursor:pointer; display:grid; place-items:center; flex:none; transition:.12s; }\n#fs .meal__del:hover{ color:var(--cal); border-color:var(--cal-50); background:var(--cal-50); }\n#fs .meal__del i{ font-size:16px; }\n#fs .btn--danger{ display:inline-flex; align-items:center; gap:6px; font-size:12.5px; font-weight:600; color:var(--ink-500); background:var(--surface); border:1px solid var(--line); padding:7px 12px; border-radius:10px; cursor:pointer; }\n#fs .btn--danger i{ font-size:15px; }\n#fs .btn--danger:hover{ color:var(--cal); border-color:var(--cal-50); background:var(--cal-50); }\n@media(max-width:640px){ #fs .meal__chips{ display:none; } #fs .res__hero{ flex-direction:column; align-items:flex-start; } #fs .res__cal{ width:100%; } }\n\n/* =================================================================== PROFILE MODAL */\n#fs .avatar-btn{ border:0; cursor:pointer; font-family:var(--display); transition:.15s; }\n#fs .avatar-btn:hover{ transform:translateY(-1px); filter:brightness(1.05); }\n#fs .modal{ position:fixed; inset:0; background:rgba(16,21,31,.45); backdrop-filter:blur(3px); display:none; place-items:center; z-index:70; }\n#fs .modal.on{ display:grid; }\n#fs .modal__card{ width:min(460px,92vw); background:var(--surface); border-radius:var(--r-lg); box-shadow:var(--sh-lg); padding:22px; }\n#fs .modal__h{ display:flex; align-items:center; gap:10px; margin-bottom:3px; }\n#fs .modal__h .ic{ width:34px; height:34px; border-radius:10px; background:var(--brand-50); color:var(--brand); display:grid; place-items:center; }\n#fs .modal__h .ic i{ font-size:19px; }\n#fs .modal__h .ttl{ font-family:var(--display); font-weight:800; font-size:17px; }\n#fs .modal__sub{ font-size:12.5px; color:var(--ink-500); margin-bottom:16px; }\n#fs .frm{ display:grid; grid-template-columns:1fr 1fr; gap:12px; }\n#fs .fld{ display:flex; flex-direction:column; gap:5px; }\n#fs .fld.full{ grid-column:1/-1; }\n#fs .fld label{ font-size:11.5px; font-weight:600; color:var(--ink-500); }\n#fs .fld input,#fs .fld select{ font:500 14px var(--font); color:var(--ink-900); background:var(--surface-2); border:1px solid var(--line); border-radius:10px; padding:10px 12px; outline:none; transition:.15s; }\n#fs .fld input:focus,#fs .fld select:focus{ border-color:var(--brand); background:#fff; }\n#fs .bmi{ grid-column:1/-1; display:flex; align-items:center; justify-content:space-between; background:var(--surface-2); border:1px solid var(--line); border-radius:12px; padding:12px 14px; margin-top:2px; }\n#fs .bmi .lab{ font-size:11.5px; color:var(--ink-500); font-weight:600; }\n#fs .bmi .v{ font-family:var(--display); font-weight:800; font-size:21px; }\n#fs .bmi .cat{ font-size:12px; font-weight:700; padding:4px 11px; border-radius:999px; }\n#fs .modal__foot{ display:flex; gap:10px; margin-top:18px; }\n#fs .modal__foot .btn{ flex:1; }\n\n/* =================================================================== TOAST */\n#fs .toast{ position:fixed; left:50%; top:20px; transform:translateX(-50%) translateY(-150%); z-index:60;\n  display:flex; align-items:center; gap:9px; background:#10151f; color:#fff; padding:12px 18px; border-radius:13px;\n  font-size:13px; font-weight:600; box-shadow:var(--sh-lg); transition:transform .32s cubic-bezier(.3,1.2,.5,1); max-width:90%; }\n#fs .toast.show{ transform:translateX(-50%) translateY(0); }\n#fs .toast.err{ background:#3a1115; color:#ffd7da; } #fs .toast i{ font-size:18px; flex:none; }\n</style>\n\n<div id=\"fs\">\n <div id=\"toast\" class=\"toast\"></div>\n <div class=\"wrap\">\n\n  <!-- HEADER -->\n  <header class=\"hdr\">\n    <div class=\"avatar\" id=\"avatar\">F</div>\n    <div>\n      <div class=\"greet\" id=\"greet\">Welcome back</div>\n      <div class=\"h1\">Food Scanner</div>\n    </div>\n    <div class=\"right\">\n      <div class=\"chiprow\"><i class=\"ph-duotone ph-calendar-dots\"></i><span id=\"hdrDate\">Today</span></div>\n      <button class=\"iconbtn\" title=\"Notifications\"><span class=\"dot\"></span><i class=\"ph-duotone ph-bell\"></i></button>\n      <button class=\"avatar avatar-btn\" id=\"profileBtn\" title=\"Edit profile & goals\" style=\"width:42px;height:42px;border-radius:12px;font-size:15px;background:linear-gradient(140deg,#7c5cff,#9f8bff);box-shadow:0 6px 16px rgba(124,92,255,.35)\">B</button>\n    </div>\n  </header>\n\n  <!-- DAILY OVERVIEW -->\n  <div class=\"sect-h\"><span class=\"t\">Daily nutrition</span><span class=\"s\" id=\"goalSub\">Tracking against your daily goal</span></div>\n  <div class=\"kpis\">\n    <div class=\"kpi kpi--cal\">\n      <div class=\"kpi__top\"><div class=\"kpi__ic\"><i class=\"ph-duotone ph-fire\"></i></div><span class=\"kpi__pct\" id=\"pKcal\">0%</span></div>\n      <div class=\"kpi__num\"><span id=\"vKcal\">0</span><span class=\"kpi__goal\" id=\"gKcal\">/ 2000</span></div>\n      <div class=\"kpi__lab\">Calories \u00b7 kcal</div>\n      <div class=\"kpi__bar\"><i id=\"bKcal\"></i></div>\n    </div>\n    <div class=\"kpi kpi--pro\">\n      <div class=\"kpi__top\"><div class=\"kpi__ic\"><i class=\"ph-duotone ph-barbell\"></i></div><span class=\"kpi__pct\" id=\"pPro\">0%</span></div>\n      <div class=\"kpi__num\"><span id=\"vPro\">0</span><span class=\"kpi__goal\" id=\"gPro\">/ 120g</span></div>\n      <div class=\"kpi__lab\">Protein \u00b7 grams</div>\n      <div class=\"kpi__bar\"><i id=\"bPro\"></i></div>\n    </div>\n    <div class=\"kpi kpi--fat\">\n      <div class=\"kpi__top\"><div class=\"kpi__ic\"><i class=\"ph-duotone ph-drop\"></i></div><span class=\"kpi__pct\" id=\"pFat\">0%</span></div>\n      <div class=\"kpi__num\"><span id=\"vFat\">0</span><span class=\"kpi__goal\" id=\"gFat\">/ 70g</span></div>\n      <div class=\"kpi__lab\">Fat \u00b7 grams</div>\n      <div class=\"kpi__bar\"><i id=\"bFat\"></i></div>\n    </div>\n    <div class=\"kpi kpi--carb\">\n      <div class=\"kpi__top\"><div class=\"kpi__ic\"><i class=\"ph-duotone ph-bread\"></i></div><span class=\"kpi__pct\" id=\"pCarb\">0%</span></div>\n      <div class=\"kpi__num\"><span id=\"vCarb\">0</span><span class=\"kpi__goal\" id=\"gCarb\">/ 250g</span></div>\n      <div class=\"kpi__lab\">Net carbs \u00b7 grams</div>\n      <div class=\"kpi__bar\"><i id=\"bCarb\"></i></div>\n    </div>\n  </div>\n\n  <!-- MAIN: scanner \u00b7 result \u00b7 charts rail -->\n  <div class=\"main\">\n    <section class=\"card\">\n      <div class=\"card__h\"><span class=\"ic\"><i class=\"ph-duotone ph-camera\"></i></span><span class=\"ttl\">Scan your meal</span></div>\n      <div class=\"card__b\">\n        <div class=\"stage\">\n          <video id=\"vid\" autoplay playsinline muted></video>\n          <canvas id=\"cv\"></canvas>\n          <div class=\"stage-ph\" id=\"ph\"><i class=\"ph-duotone ph-image\"></i>Start the camera or upload a photo of your meal</div>\n          <div class=\"ovl\" id=\"ovl\"><div><div class=\"sp\"></div><div class=\"t\" id=\"ovlT\">Analyzing your meal\u2026</div></div></div>\n        </div>\n        <div class=\"btnrow\">\n          <button class=\"btn btn--ghost\" id=\"bCam\"><i class=\"ph-duotone ph-camera\"></i>Camera</button>\n          <button class=\"btn btn--ghost\" id=\"bUp\"><i class=\"ph-duotone ph-upload-simple\"></i>Upload<input id=\"file\" type=\"file\" accept=\"image/*\" style=\"display:none\"></button>\n          <button class=\"btn btn--primary\" id=\"bScan\" disabled><i class=\"ph-duotone ph-scan\"></i>Scan food</button>\n        </div>\n        <div class=\"alert\" id=\"alert\"><span class=\"mini\"></span><span id=\"alertT\">Loading AI model\u2026</span></div>\n      </div>\n    </section>\n\n    <section class=\"card card--result\">\n      <div class=\"card__h\"><span class=\"ic\"><i class=\"ph-duotone ph-sparkle\"></i></span><span class=\"ttl\">Detected food</span></div>\n      <div class=\"card__b\">\n        <div id=\"resEmpty\" class=\"skel\">\n          <div class=\"res__hero\">\n            <div class=\"sk sk-cal\"></div>\n            <div class=\"sk-info\">\n              <div class=\"sk sk-line\" style=\"width:38%\"></div>\n              <div class=\"sk sk-title\"></div>\n              <div class=\"sk sk-badge\"></div>\n            </div>\n          </div>\n          <div class=\"macros\">\n            <div class=\"sk sk-macro\"></div><div class=\"sk sk-macro\"></div><div class=\"sk sk-macro\"></div>\n          </div>\n          <div class=\"alts\">\n            <div class=\"sk sk-line\" style=\"width:42%;margin-bottom:13px\"></div>\n            <div class=\"sk sk-row\"></div><div class=\"sk sk-row\"></div><div class=\"sk sk-row\"></div>\n          </div>\n          <div class=\"skel-cap\"><i class=\"ph-duotone ph-scan\"></i> Scan a meal to see its nutrition breakdown</div>\n        </div>\n        <div id=\"resBox\" style=\"display:none\">\n          <div class=\"res__hero\">\n            <div class=\"res__cal\"><div class=\"v\" id=\"rKcalV\">0</div><div class=\"u\">kcal</div><div class=\"k\" id=\"rServ\">per serving</div></div>\n            <div class=\"res__info\">\n              <div class=\"res__match\">Best match</div>\n              <div class=\"res__name\" id=\"rFood\">\u2014</div>\n              <span class=\"badge\" id=\"rBadge\"></span>\n            </div>\n          </div>\n          <div class=\"macros\">\n            <div class=\"macro macro--pro\"><div class=\"macro__ic\"><i class=\"ph-duotone ph-barbell\"></i></div><div class=\"macro__v\" id=\"mPro\">0g</div><div class=\"macro__l\">Protein</div></div>\n            <div class=\"macro macro--fat\"><div class=\"macro__ic\"><i class=\"ph-duotone ph-drop\"></i></div><div class=\"macro__v\" id=\"mFat\">0g</div><div class=\"macro__l\">Fat</div></div>\n            <div class=\"macro macro--carb\"><div class=\"macro__ic\"><i class=\"ph-duotone ph-bread\"></i></div><div class=\"macro__v\" id=\"mCarb\">0g</div><div class=\"macro__l\">Net carbs</div></div>\n          </div>\n          <div class=\"alts\"><h4>Other possible matches</h4><div id=\"alts\"></div></div>\n        </div>\n      </div>\n    </section>\n\n    <!-- charts rail -->\n    <div class=\"rail\">\n      <section class=\"card\">\n        <div class=\"card__h\"><span class=\"ic\"><i class=\"ph-duotone ph-chart-bar\"></i></span><span class=\"ttl\">Calories \u2014 7 days</span></div>\n        <div class=\"card__b\">\n          <div class=\"chart-wrap\" id=\"calWrap\"><canvas id=\"chCal\"></canvas></div>\n          <div class=\"chart-empty\" id=\"calEmpty\"><i class=\"ph-duotone ph-chart-bar\"></i>No calories logged this week yet.</div>\n        </div>\n      </section>\n      <section class=\"card\">\n        <div class=\"card__h\"><span class=\"ic\"><i class=\"ph-duotone ph-chart-pie-slice\"></i></span><span class=\"ttl\">Top foods</span></div>\n        <div class=\"card__b\">\n          <div class=\"chart-wrap\" id=\"foodWrap\"><canvas id=\"chFood\"></canvas></div>\n          <div class=\"chart-empty\" id=\"foodEmpty\"><i class=\"ph-duotone ph-chart-pie-slice\"></i>Scan a few meals to see your top foods.</div>\n        </div>\n      </section>\n    </div>\n  </div>\n\n  <!-- MEAL LOG -->\n  <section class=\"card mt\">\n    <div class=\"card__h\"><span class=\"ic\"><i class=\"ph-duotone ph-clock-counter-clockwise\"></i></span><span class=\"ttl\">Meal log</span><span class=\"act\"><button class=\"btn--danger\" id=\"bClear\"><i class=\"ph-duotone ph-trash\"></i>Clear all</button></span></div>\n    <div class=\"card__b\" id=\"log\"><div class=\"empty\">No meals logged yet \u2014 scan your first meal above.</div></div>\n  </section>\n\n  <!-- PROFILE & GOALS MODAL -->\n  <div class=\"modal\" id=\"modal\">\n    <div class=\"modal__card\">\n      <div class=\"modal__h\"><span class=\"ic\"><i class=\"ph-duotone ph-user\"></i></span><span class=\"ttl\">Your profile &amp; goals</span></div>\n      <div class=\"modal__sub\">We use this to personalize your daily calorie &amp; macro targets.</div>\n      <div class=\"frm\">\n        <div class=\"fld\"><label>Height (cm)</label><input id=\"inH\" type=\"number\" min=\"100\" max=\"230\"></div>\n        <div class=\"fld\"><label>Weight (kg)</label><input id=\"inW\" type=\"number\" min=\"30\" max=\"250\"></div>\n        <div class=\"fld\"><label>Age</label><input id=\"inA\" type=\"number\" min=\"10\" max=\"100\"></div>\n        <div class=\"fld\"><label>Sex</label><select id=\"inS\"><option value=\"male\">Male</option><option value=\"female\">Female</option></select></div>\n        <div class=\"fld full\"><label>Activity level</label><select id=\"inAct\">\n          <option value=\"1.2\">Sedentary (little exercise)</option>\n          <option value=\"1.375\">Light (1\u20133 days/week)</option>\n          <option value=\"1.55\">Moderate (3\u20135 days/week)</option>\n          <option value=\"1.725\">Active (6\u20137 days/week)</option>\n          <option value=\"1.9\">Very active (athlete)</option>\n        </select></div>\n        <div class=\"fld full\"><label>Goal</label><select id=\"inGoal\">\n          <option value=\"lose\">Lose weight (\u2212500 kcal)</option>\n          <option value=\"maintain\">Maintain weight</option>\n          <option value=\"gain\">Gain muscle (+400 kcal)</option>\n        </select></div>\n        <div class=\"bmi\"><div><div class=\"lab\">Body mass index</div><div class=\"v\" id=\"bmiV\">\u2014</div></div><span class=\"cat\" id=\"bmiCat\">\u2014</span></div>\n      </div>\n      <div class=\"modal__foot\">\n        <button class=\"btn btn--ghost\" id=\"mCancel\">Cancel</button>\n        <button class=\"btn btn--primary\" id=\"mSave\"><i class=\"ph-duotone ph-check\"></i>Save goals</button>\n      </div>\n    </div>\n  </div>\n\n </div>\n</div>\n\n<script src=\"/food-model/tf.min.js\"></script>\n<script src=\"/food-model/chart.umd.min.js\"></script>\n<script>\n(function(){\n  var IMG=224, MODEL=\"/food-model/model.json\", KEY=\"fc_hist\", PKEY=\"fc_profile\";\n  var DEF_PROFILE={height:170,weight:70,age:30,sex:\"male\",activity:1.55,goal:\"maintain\"};\n  function loadProfile(){ try{ return Object.assign({},DEF_PROFILE,JSON.parse(localStorage.getItem(PKEY))||{}); }catch(e){ return Object.assign({},DEF_PROFILE); } }\n  function saveProfile(p){ try{ localStorage.setItem(PKEY,JSON.stringify(p)); }catch(e){} }\n  // Mifflin-St Jeor BMR -> TDEE -> goal-adjusted targets\n  function computeGoals(p){\n    var bmr=10*p.weight+6.25*p.height-5*p.age+(p.sex===\"male\"?5:-161);\n    var tdee=bmr*(+p.activity||1.55);\n    var adj=p.goal===\"lose\"?-500:p.goal===\"gain\"?400:0;\n    var kcal=Math.max(1200,Math.round((tdee+adj)/10)*10);\n    var protein=Math.round(p.weight*1.8);\n    var fat=Math.round(kcal*0.25/9);\n    var carbs=Math.max(0,Math.round((kcal-protein*4-fat*9)/4));\n    return {kcal:kcal,protein:protein,fat:fat,carbs:carbs};\n  }\n  function bmiInfo(p){\n    var b=p.weight/Math.pow((p.height||170)/100,2);\n    var cat=b<18.5?\"Underweight\":b<25?\"Normal\":b<30?\"Overweight\":\"Obese\";\n    var col=b<18.5?\"#0ea5e9\":b<25?\"#16b87a\":b<30?\"#f59e0b\":\"#ff4d5e\";\n    return {bmi:b.toFixed(1),cat:cat,col:col};\n  }\n  var GOAL=computeGoals(loadProfile());\n  var model=null, labels=[], cals={}, calChart=null, foodChart=null;\n  var $=function(id){return document.getElementById(id);};\n  function alertMsg(t,kind){ $(\"alertT\").textContent=t; var a=$(\"alert\"); a.className=\"alert\"+(kind?(\" \"+kind):\"\");\n    var m=a.querySelector(\".mini\"); if(m) m.style.display=(kind==null?\"inline-block\":\"none\"); }\n  function toast(m,err){ var t=$(\"toast\"); t.innerHTML='<i class=\"ph-duotone ph-'+(err?\"warning-circle\":\"check-circle\")+'\"></i>'+m; t.className=\"toast show\"+(err?\" err\":\"\");\n    setTimeout(function(){t.className=\"toast\"+(err?\" err\":\"\");},4200); }\n  function overlay(on,txt){ $(\"ovl\").classList.toggle(\"on\",on); if(txt)$(\"ovlT\").textContent=txt; }\n\n  (function(){ var h=new Date().getHours(); $(\"greet\").textContent=(h<12?\"Good morning\":h<18?\"Good afternoon\":\"Good evening\")+\" \ud83d\udc4b\"; })();\n\n  /* ---------------- storage + analytics ---------------- */\n  function load(){ try{ return JSON.parse(localStorage.getItem(KEY))||[]; }catch(e){ return []; } }\n  function save(a){ try{ localStorage.setItem(KEY,JSON.stringify(a.slice(-200))); }catch(e){} }\n  function dkey(ts){ var d=new Date(ts); return d.getFullYear()+\"-\"+(d.getMonth()+1)+\"-\"+d.getDate(); }\n  function setKpi(prefix,val,goal){ var pct=goal?Math.round(val/goal*100):0;\n    $(\"v\"+prefix).textContent=val; $(\"p\"+prefix).textContent=pct+\"%\"; $(\"b\"+prefix).style.width=Math.min(100,pct)+\"%\"; }\n\n  function render(){\n    var h=load(), today=dkey(Date.now()), t=h.filter(function(e){return dkey(e.ts)===today;});\n    var sum=function(k){return t.reduce(function(s,e){return s+(+e[k]||0);},0);};\n    setKpi(\"Kcal\",sum(\"kcal\"),GOAL.kcal); setKpi(\"Pro\",sum(\"protein\"),GOAL.protein);\n    setKpi(\"Fat\",sum(\"fat\"),GOAL.fat); setKpi(\"Carb\",sum(\"carbs\"),GOAL.carbs);\n    $(\"hdrDate\").textContent=new Date().toLocaleDateString(undefined,{weekday:\"short\",month:\"short\",day:\"numeric\"});\n    $(\"gKcal\").textContent=\"/ \"+GOAL.kcal; $(\"gPro\").textContent=\"/ \"+GOAL.protein+\"g\";\n    $(\"gFat\").textContent=\"/ \"+GOAL.fat+\"g\"; $(\"gCarb\").textContent=\"/ \"+GOAL.carbs+\"g\";\n    var bi=bmiInfo(loadProfile());\n    $(\"goalSub\").textContent=sum(\"kcal\")+\" / \"+GOAL.kcal+\" kcal \u00b7 \"+Math.round(sum(\"kcal\")/GOAL.kcal*100)+\"% of goal \u00b7 BMI \"+bi.bmi+\" (\"+bi.cat+\")\";\n\n    var log=$(\"log\");\n    if(!h.length){ log.innerHTML='<div class=\"empty\">No meals logged yet \u2014 scan your first meal above.</div>'; }\n    else{\n      log.innerHTML=h.slice().reverse().slice(0,12).map(function(e){\n        var tm=new Date(e.ts), hh=tm.getHours().toString().padStart(2,\"0\")+\":\"+tm.getMinutes().toString().padStart(2,\"0\");\n        return '<div class=\"meal\"><div class=\"meal__th\"><i class=\"ph-duotone ph-fork-knife\"></i></div>'+\n          '<div><div class=\"meal__nm\">'+e.label+'</div><div class=\"meal__tm\">'+hh+'</div></div>'+\n          '<div class=\"meal__chips\"><span class=\"mchip\"><i style=\"background:var(--protein)\"></i>'+e.protein+'g</span><span class=\"mchip\"><i style=\"background:var(--fat)\"></i>'+e.fat+'g</span><span class=\"mchip\"><i style=\"background:var(--carbs)\"></i>'+e.carbs+'g</span></div>'+\n          '<div class=\"meal__kc\">'+e.kcal+'<span style=\"font-size:11px;color:var(--ink-500);font-weight:600\"> kcal</span></div>'+\n          '<button class=\"meal__del\" data-ts=\"'+e.ts+'\" title=\"Delete\"><i class=\"ph-duotone ph-trash\"></i></button></div>';\n      }).join(\"\");\n    }\n    charts(h);\n  }\n\n  $(\"log\").addEventListener(\"click\",function(ev){\n    var b=ev.target.closest(\".meal__del\"); if(!b) return;\n    var ts=+b.getAttribute(\"data-ts\"); save(load().filter(function(e){return e.ts!==ts;})); render();\n  });\n\n  function charts(h){\n    if(typeof Chart===\"undefined\") return;\n    var days=[],sums=[],any=false;\n    for(var i=6;i>=0;i--){ var d=new Date(); d.setDate(d.getDate()-i); var k=dkey(d);\n      days.push(d.toLocaleDateString(undefined,{weekday:\"short\"}));\n      var s=h.filter(function(e){return dkey(e.ts)===k;}).reduce(function(a,e){return a+(+e.kcal||0);},0);\n      sums.push(s); if(s>0) any=true; }\n    $(\"calWrap\").classList.toggle(\"off\",!any); $(\"calEmpty\").classList.toggle(\"on\",!any);\n    if(any){\n      if(!calChart){ calChart=new Chart($(\"chCal\"),{type:\"bar\",data:{labels:days,datasets:[{data:sums,backgroundColor:\"#ff6a3d\",hoverBackgroundColor:\"#ec5526\",borderRadius:8,maxBarThickness:30}]},\n        options:{maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{backgroundColor:\"#10151f\",padding:10,cornerRadius:8,callbacks:{label:function(c){return c.parsed.y+\" kcal\";}}}},\n          scales:{y:{beginAtZero:true,border:{display:false},grid:{color:\"#f1f3f8\"},ticks:{color:\"#9aa1af\",font:{size:11}}},x:{border:{display:false},grid:{display:false},ticks:{color:\"#9aa1af\",font:{size:11}}}}}}); }\n      else{ calChart.data.labels=days; calChart.data.datasets[0].data=sums; calChart.update(); }\n    }\n    var cnt={}; h.forEach(function(e){cnt[e.food]=(cnt[e.food]||0)+1;});\n    var top=Object.keys(cnt).sort(function(a,b){return cnt[b]-cnt[a];}).slice(0,5);\n    $(\"foodWrap\").classList.toggle(\"off\",!top.length); $(\"foodEmpty\").classList.toggle(\"on\",!top.length);\n    if(top.length){\n      var pal=[\"#ff6a3d\",\"#7c5cff\",\"#16b87a\",\"#f59e0b\",\"#0ea5e9\"];\n      var ld=top.map(function(f){return f.replace(/_/g,\" \");}), dd=top.map(function(f){return cnt[f];});\n      if(!foodChart){ foodChart=new Chart($(\"chFood\"),{type:\"doughnut\",data:{labels:ld,datasets:[{data:dd,backgroundColor:pal,borderWidth:2,borderColor:\"#fff\"}]},\n        options:{maintainAspectRatio:false,cutout:\"66%\",plugins:{legend:{position:\"right\",labels:{boxWidth:9,boxHeight:9,font:{size:11},color:\"#39414f\",padding:10,usePointStyle:true}},\n          tooltip:{backgroundColor:\"#10151f\",padding:10,cornerRadius:8,callbacks:{label:function(c){var tot=c.dataset.data.reduce(function(a,b){return a+b;},0);return c.label+\": \"+c.parsed+\" (\"+Math.round(c.parsed/tot*100)+\"%)\";}}}}}}); }\n      else{ foodChart.data.labels=ld; foodChart.data.datasets[0].data=dd; foodChart.data.datasets[0].backgroundColor=pal; foodChart.update(); }\n    }\n  }\n\n  $(\"bClear\").onclick=function(){ if(confirm(\"Clear all meal history?\")){ localStorage.removeItem(KEY); render(); } };\n\n  /* ---------------- profile & goals modal ---------------- */\n  function readForm(){ return {height:+$(\"inH\").value||170, weight:+$(\"inW\").value||70, age:+$(\"inA\").value||30,\n    sex:$(\"inS\").value, activity:+$(\"inAct\").value, goal:$(\"inGoal\").value}; }\n  function previewBmi(){ var bi=bmiInfo(readForm()); $(\"bmiV\").textContent=bi.bmi;\n    var c=$(\"bmiCat\"); c.textContent=bi.cat; c.style.color=bi.col; c.style.background=bi.col+\"22\"; }\n  function openProfile(){ var p=loadProfile();\n    $(\"inH\").value=p.height; $(\"inW\").value=p.weight; $(\"inA\").value=p.age;\n    $(\"inS\").value=p.sex; $(\"inAct\").value=p.activity; $(\"inGoal\").value=p.goal;\n    previewBmi(); $(\"modal\").classList.add(\"on\"); }\n  function closeProfile(){ $(\"modal\").classList.remove(\"on\"); }\n  [\"inH\",\"inW\",\"inA\",\"inS\"].forEach(function(id){ $(id).addEventListener(\"input\",previewBmi); });\n  $(\"profileBtn\").onclick=openProfile;\n  $(\"mCancel\").onclick=closeProfile;\n  $(\"modal\").addEventListener(\"click\",function(e){ if(e.target===$(\"modal\")) closeProfile(); });\n  $(\"mSave\").onclick=function(){ var p=readForm(); saveProfile(p); GOAL=computeGoals(p); render(); closeProfile(); toast(\"Goals personalized for your profile\"); };\n\n  /* ---------------- model ---------------- */\n  function loadModel(){\n    if(typeof tf===\"undefined\"){ alertMsg(\"AI engine failed to load. Disable ad-blockers & refresh.\",\"err\"); toast(\"TensorFlow.js failed to load\",true); return; }\n    alertMsg(\"Loading AI model (~10 MB, one time)\u2026\");\n    var nc={requestInit:{cache:\"no-store\"}};\n    Promise.all([\n      tf.loadLayersModel(MODEL,nc),\n      fetch(\"/food-model/labels.json\",{cache:\"no-store\"}).then(function(r){if(!r.ok)throw new Error(\"labels \"+r.status);return r.json();}),\n      fetch(\"/food-model/calories.json\",{cache:\"no-store\"}).then(function(r){if(!r.ok)throw new Error(\"calories \"+r.status);return r.json();})\n    ]).then(function(res){\n      model=res[0]; labels=res[1]; cals=res[2];\n      var w=tf.zeros([1,IMG,IMG,3]); model.predict(w).dataSync(); w.dispose();\n      alertMsg(\"Model ready \u2014 scan a meal to begin.\",\"ok\");\n    }).catch(function(e){ alertMsg(\"Could not load model: \"+e.message,\"err\"); toast(\"Model load failed: \"+e.message,true); });\n  }\n\n  /* ---------------- camera / upload ---------------- */\n  $(\"bCam\").onclick=function(){\n    navigator.mediaDevices.getUserMedia({video:{facingMode:\"environment\"}}).then(function(s){\n      var v=$(\"vid\"); v.srcObject=s; v.style.display=\"block\"; $(\"cv\").style.display=\"none\"; $(\"ph\").style.display=\"none\";\n      $(\"bScan\").disabled=!model; alertMsg(model?\"Camera on \u2014 point at food and tap Scan.\":\"Camera on \u2014 waiting for model\u2026\");\n    }).catch(function(e){ toast(\"Camera blocked \u2014 use Upload instead\",true); alertMsg(\"Camera blocked: \"+e.message,\"err\"); });\n  };\n  $(\"bScan\").onclick=function(){ var v=$(\"vid\"); if(!v.videoWidth){ toast(\"Camera not ready yet\",true); return; }\n    var c=$(\"cv\"); c.width=v.videoWidth; c.height=v.videoHeight; c.getContext(\"2d\").drawImage(v,0,0); classify(c); };\n  $(\"bUp\").onclick=function(){ $(\"file\").click(); };\n  $(\"file\").onchange=function(ev){\n    var f=ev.target.files[0]; if(!f) return;\n    if(!/^image\\//.test(f.type)){ toast(\"That file isn't an image (use JPG/PNG)\",true); ev.target.value=\"\"; return; }\n    overlay(true,\"Loading image\u2026\"); alertMsg(\"Loading image\u2026\");\n    var url=URL.createObjectURL(f), img=new Image();\n    img.onload=function(){ var c=$(\"cv\"); c.width=img.naturalWidth; c.height=img.naturalHeight; c.getContext(\"2d\").drawImage(img,0,0);\n      c.style.display=\"block\"; $(\"vid\").style.display=\"none\"; $(\"ph\").style.display=\"none\"; URL.revokeObjectURL(url); classify(c); };\n    img.onerror=function(){ URL.revokeObjectURL(url); overlay(false); toast(\"Could not read that image \u2014 try another\",true); alertMsg(\"Couldn't read image.\",\"err\"); };\n    img.src=url; ev.target.value=\"\";\n  };\n\n  /* ---------------- inference ---------------- */\n  function classify(canvas){\n    if(!model){ overlay(false); alertMsg(\"Model still loading \u2014 please wait, then scan again.\"); toast(\"Model still loading\u2026\",true); return; }\n    if(!canvas.width){ overlay(false); toast(\"No image to scan\",true); return; }\n    overlay(true,\"Analyzing your meal\u2026\"); alertMsg(\"Analyzing\u2026\");\n    $(\"bScan\").disabled=true; $(\"bUp\").disabled=true; $(\"bCam\").disabled=true;\n    setTimeout(function(){\n      try{\n        var probs=tf.tidy(function(){\n          var t=tf.browser.fromPixels(canvas).resizeBilinear([IMG,IMG]).toFloat().expandDims(0).div(127.5).sub(1);\n          return model.predict(t).dataSync();\n        });\n        if(!probs||!probs.length) throw new Error(\"empty prediction\");\n        show(probs);\n      }catch(err){ toast(\"Detection failed: \"+err.message,true); alertMsg(\"Detection failed: \"+err.message,\"err\"); }\n      finally{ overlay(false); $(\"bScan\").disabled=!($(\"vid\").srcObject); $(\"bUp\").disabled=false; $(\"bCam\").disabled=false; }\n    },40);\n  }\n\n  function show(probs){\n    var idx=Array.from(probs.keys()).sort(function(a,b){return probs[b]-probs[a];});\n    var top=idx.slice(0,4).map(function(i){return {name:labels[i]||(\"class \"+i),p:probs[i]};});\n    var best=top[0], c=cals[best.name]||{kcal:0,serving:\"n/a\",protein:0,fat:0,carbs:0};\n    $(\"resEmpty\").style.display=\"none\"; $(\"resBox\").style.display=\"block\";\n    $(\"rFood\").textContent=best.name.replace(/_/g,\" \");\n    $(\"rServ\").textContent=\"per \"+c.serving; $(\"rKcalV\").textContent=c.kcal;\n    $(\"mPro\").textContent=c.protein+\"g\"; $(\"mFat\").textContent=c.fat+\"g\"; $(\"mCarb\").textContent=c.carbs+\"g\";\n    var pct=Math.round(best.p*100), lvl=pct>=60?\"high\":pct>=35?\"med\":\"low\";\n    var label={high:\"High confidence\",med:\"Medium confidence\",low:\"Low confidence\"}[lvl];\n    var ic={high:\"check-circle\",med:\"warning-circle\",low:\"warning\"}[lvl];\n    var b=$(\"rBadge\"); b.className=\"badge badge--\"+lvl;\n    b.innerHTML='<i class=\"ph-duotone ph-'+ic+'\"></i>'+pct+\"% \u00b7 \"+label;\n    $(\"alts\").innerHTML=top.slice(1).map(function(t,i){var k=(cals[t.name]||{}).kcal;\n      return '<div class=\"alt\"><span class=\"alt__rank\">'+(i+2)+'</span><span class=\"alt__nm\">'+t.name.replace(/_/g,\" \")+'</span><span class=\"alt__r\"><div class=\"alt__pct\">'+Math.round(t.p*100)+'%</div><div class=\"alt__kc\">'+(k!=null?k+\" kcal\":\"\u2014\")+'</div></span></div>';}).join(\"\");\n\n    var h=load(); h.push({food:best.name,label:best.name.replace(/_/g,\" \"),kcal:+c.kcal||0,protein:+c.protein||0,fat:+c.fat||0,carbs:+c.carbs||0,conf:best.p,ts:Date.now()}); save(h); render();\n    alertMsg(best.name.replace(/_/g,\" \")+\" logged to your meal log.\",\"ok\");\n    if(typeof scope!==\"undefined\"&&scope.send){ scope.send({payload:{food:best.name,kcal:c.kcal,serving:c.serving,protein:c.protein,fat:c.fat,carbs:c.carbs,confidence:best.p,ts:Date.now()}}); }\n  }\n\n  render();\n  loadModel();\n})();\n</script>\n",
+    "storeOutMessages": true,
+    "fwdInMessages": true,
+    "resendOnRefresh": true,
+    "templateScope": "local",
+    "x": 210,
+    "y": 200,
+    "wires": [
+      [
+        "fn_norm"
+      ]
+    ]
+  },
+  {
+    "id": "fn_norm",
+    "type": "function",
+    "z": "food_flow",
+    "g": "g_intake",
+    "name": "Normalize & validate",
+    "func": "// Normalize & validate the raw scan from the dashboard\nconst p = msg.payload || {};\nif (!p.food) { node.warn('empty scan dropped'); return null; }   // scenario: no food\nconst conf = Math.round((Number(p.confidence) || 0) * 1000) / 10;\nmsg.payload = {\n    food: p.food,\n    label: String(p.food).replace(/_/g, ' '),\n    kcal: Number(p.kcal) || 0,\n    protein: Number(p.protein) || 0,\n    fat: Number(p.fat) || 0,\n    carbs: Number(p.carbs) || 0,\n    serving: p.serving || 'n/a',\n    confidence: conf,\n    time: new Date(p.ts || Date.now()).toISOString()\n};\nnode.status({ fill: 'blue', shape: 'dot', text: msg.payload.label + ' (' + conf + '%)' });\nreturn msg;",
+    "outputs": 1,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 470,
+    "y": 200,
+    "wires": [
+      [
+        "sw_conf"
+      ]
+    ]
+  },
+  {
+    "id": "sw_conf",
+    "type": "switch",
+    "z": "food_flow",
+    "g": "g_route",
+    "name": "Confidence \u2265 60%?",
+    "property": "payload.confidence",
+    "propertyType": "msg",
+    "rules": [
+      {
+        "t": "gte",
+        "v": "60",
+        "vt": "num"
+      },
+      {
+        "t": "else"
+      }
+    ],
+    "checkall": "false",
+    "repair": false,
+    "outputs": 2,
+    "x": 710,
+    "y": 200,
+    "wires": [
+      [
+        "flt_dup"
+      ],
+      [
+        "ch_low"
+      ]
+    ]
+  },
+  {
+    "id": "ch_low",
+    "type": "change",
+    "z": "food_flow",
+    "g": "g_route",
+    "name": "Flag low-confidence",
+    "rules": [
+      {
+        "t": "set",
+        "p": "payload.status",
+        "pt": "msg",
+        "to": "needs_review",
+        "tot": "str"
+      }
+    ],
+    "action": "",
+    "property": "",
+    "from": "",
+    "to": "",
+    "reg": false,
+    "x": 720,
+    "y": 320,
+    "wires": [
+      [
+        "dbg_low"
+      ]
+    ]
+  },
+  {
+    "id": "flt_dup",
+    "type": "rbe",
+    "z": "food_flow",
+    "g": "g_proc",
+    "name": "Skip repeat foods",
+    "func": "rbe",
+    "gap": "",
+    "start": "",
+    "inout": "out",
+    "septopics": true,
+    "property": "payload.food",
+    "topi": "topic",
+    "x": 960,
+    "y": 180,
+    "wires": [
+      [
+        "fn_totals"
+      ]
+    ]
+  },
+  {
+    "id": "fn_totals",
+    "type": "function",
+    "z": "food_flow",
+    "g": "g_proc",
+    "name": "Daily totals (context)",
+    "func": "// Running daily totals using flow context (resets each day)\nconst p = msg.payload;\nconst today = new Date().toISOString().slice(0, 10);\nlet s = flow.get('daily') || { date: today, kcal: 0, count: 0 };\nif (s.date !== today) { s = { date: today, kcal: 0, count: 0 }; }\ns.kcal += p.kcal;\ns.count += 1;\nflow.set('daily', s);\np.dailyTotalKcal = s.kcal;\np.scansToday = s.count;\nnode.status({ fill: 'green', shape: 'dot', text: s.count + ' scans \u00b7 ' + s.kcal + ' kcal today' });\nreturn msg;",
+    "outputs": 1,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 1180,
+    "y": 180,
+    "wires": [
+      [
+        "json_str",
+        "dbg_ok"
+      ]
+    ]
+  },
+  {
+    "id": "json_str",
+    "type": "json",
+    "z": "food_flow",
+    "g": "g_proc",
+    "name": "to string",
+    "property": "payload",
+    "action": "str",
+    "pretty": false,
+    "x": 1400,
+    "y": 140,
+    "wires": [
+      [
+        "file_log"
+      ]
+    ]
+  },
+  {
+    "id": "file_log",
+    "type": "file",
+    "z": "food_flow",
+    "g": "g_proc",
+    "name": "log scans (jsonl)",
+    "filename": "food_scans.log",
+    "filenameType": "str",
+    "appendNewline": true,
+    "overwriteFile": "false",
+    "encoding": "none",
+    "x": 1590,
+    "y": 140,
+    "wires": [
+      []
+    ]
+  },
+  {
+    "id": "dbg_ok",
+    "type": "debug",
+    "z": "food_flow",
+    "g": "g_proc",
+    "name": "\u2713 logged",
+    "active": true,
+    "tosidebar": true,
+    "tostatus": false,
+    "complete": "payload",
+    "targetType": "msg",
+    "x": 1400,
+    "y": 220,
+    "wires": []
+  },
+  {
+    "id": "dbg_low",
+    "type": "debug",
+    "z": "food_flow",
+    "g": "g_proc",
+    "name": "\u26a0 needs review",
+    "active": true,
+    "tosidebar": true,
+    "tostatus": false,
+    "complete": "payload",
+    "targetType": "msg",
+    "x": 970,
+    "y": 320,
+    "wires": []
+  },
+  {
+    "id": "catch_err",
+    "type": "catch",
+    "z": "food_flow",
+    "g": "g_proc",
+    "name": "catch errors",
+    "scope": null,
+    "uncaught": false,
+    "x": 960,
+    "y": 420,
+    "wires": [
+      [
+        "fn_err"
+      ]
+    ]
+  },
+  {
+    "id": "fn_err",
+    "type": "function",
+    "z": "food_flow",
+    "g": "g_proc",
+    "name": "format error",
+    "func": "// Format any runtime error caught in this flow\nmsg.payload = {\n    error: (msg.error && msg.error.message) || 'unknown error',\n    source: (msg.error && msg.error.source && msg.error.source.id) || '',\n    time: new Date().toISOString()\n};\nnode.status({ fill: 'red', shape: 'ring', text: msg.payload.error });\nreturn msg;",
+    "outputs": 1,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 1180,
+    "y": 420,
+    "wires": [
+      [
+        "dbg_err"
+      ]
+    ]
+  },
+  {
+    "id": "dbg_err",
+    "type": "debug",
+    "z": "food_flow",
+    "g": "g_proc",
+    "name": "\u2717 flow error",
+    "active": true,
+    "tosidebar": true,
+    "tostatus": false,
+    "complete": "payload",
+    "targetType": "msg",
+    "x": 1400,
+    "y": 420,
+    "wires": []
+  }
+]

@@ -1,0 +1,15 @@
+# Professional setup: dedicated Python 3.11 venv.
+#
+# Install the converter with --no-deps so pip does NOT pull tensorflowjs's
+# extra deps (jax/flax->uvloop won't build on Windows; tensorflow-hub upgrades
+# TF to 2.21 + Keras 3 and breaks this pinned env). We never use those paths,
+# so convert_to_tfjs.py stubs them. Two steps:
+#
+#   1) Training + converter:
+#        pip install -r requirements.txt
+#        pip install tensorflowjs==4.17.0 --no-deps
+#   2) That's it -- convert_to_tfjs.py stubs tensorflow_hub/jax/TF-DF.
+
+tensorflow==2.15.0
+pillow==10.4.0
+numpy==1.26.4
